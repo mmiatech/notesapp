@@ -37,6 +37,28 @@ function App() {
     }
   }
 
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const fetchNotes = async () => {
+    try {
+      const notesData = await API.graphql({
+        query: listNotes
+      });
+      
+      dispatch({
+        type: 'SET_NOTES'
+        , notes: notesData.data.listNotes.items
+      });
+    }
+    
+    catch (err) {
+      console.error(err);
+      dispatch({
+        type: 'ERROR'
+      });
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
