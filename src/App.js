@@ -20,7 +20,7 @@ function App() {
 
   const reducer = (state, action) => {
     switch(action.type) {
-      case 'SET NOTES':
+      case 'SET_NOTES':
         return {
           ...state
           , notes: action.notes
@@ -75,15 +75,15 @@ function App() {
 
   const renderItem = (item) => {
     return(
-      <List.item
+      <List.Item
         style={styles.item}
       >
-        <listNotes.Item.Meta
+        <List.Item.Meta
           title={item.name}
           description={item.description}
         >
-        </listNotes.Item.Meta>
-      </List.item>
+        </List.Item.Meta>
+      </List.Item>
     );
   }
 
