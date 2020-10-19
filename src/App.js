@@ -1,6 +1,13 @@
-import React from 'react';
+import React, {useEffect, useReducer} from 'react';
 import logo from './logo.svg';
 import './App.css';
+
+import { API } from 'aws-amplify';
+import { List } from 'antd';
+import 'antd/dist/antd.css';
+import { listNotes } from './graphql/queries';
+
+
 
 function App() {
   return (
