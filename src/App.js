@@ -44,7 +44,7 @@ function App() {
       const notesData = await API.graphql({
         query: listNotes
       });
-      
+
       dispatch({
         type: 'SET_NOTES'
         , notes: notesData.data.listNotes.items
@@ -59,22 +59,41 @@ function App() {
     }
   }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+  useEffect (() => 
+    {
+     fetchNotes();
+    }
+    , []
+  );
+
+  const styles = {
+    container: {padding: 20},
+    input: {marginBottom: 10},
+    item: { textAlign: 'left' },
+    p: { color: '#1890ff' }
+  }
+
+  const renderItem = (item) => {
+    return(
+      <List.item
+        style={styles.item}
+      >
+        <listNotes.Item.Meta
+          title={item.name}
+          description={item.description}
         >
-          Learn React
-        </a>
-      </header>
+        </listNotes.Item.Meta>
+      </List.item>
+    );
+  }
+
+  return (
+    <div style={styles.container}>
+      <List
+        loading={state.loading}
+        dataSource={state.notes}
+        renderItem={renderItem}
+      />
     </div>
   );
 }
