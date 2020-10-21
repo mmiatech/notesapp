@@ -9,7 +9,7 @@ import { listNotes } from './graphql/queries';
 
 
 
-function App() {
+const App = () => {
 
   const initialState = {
     notes: []
@@ -59,16 +59,16 @@ function App() {
     }
   }
 
-  useEffect (() => 
-    {
+  useEffect (
+    () => {
      fetchNotes();
     }
     , []
   );
 
   const styles = {
-    container: {padding: 20},
-    input: {marginBottom: 10},
+    container: { padding: 20 },
+    input: { marginBottom: 10 },
     item: { textAlign: 'left' },
     p: { color: '#1890ff' }
   }
