@@ -3,11 +3,15 @@ import logo from './logo.svg';
 import './App.css';
 
 import { API } from 'aws-amplify';
-import { List } from 'antd';
+import { List, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import { listNotes } from './graphql/queries';
 
+import { v4 as uuid } from 'uuid';
+import { createNote as CreateNote } from './graphql/mutations';
 
+const CLIENT_ID = uuid();
+//console.log(CLIENT_ID);
 
 const App = () => {
 
@@ -26,12 +30,38 @@ const App = () => {
           , notes: action.notes
           , loading: false
         }
+
+      case 'ADD_NOTE':
+        return {
+          ...state
+          , notes: [
+            action.note
+            , ...state.notes
+          ]
+        }
+
+      case 'RESET_FORM':
+        return {
+          ...state
+          , form: initialState.form
+        }
+
+      case 'SET_INPUT':
+        return {
+          ...state
+          , form: {
+            ...state.form
+            , [action.name]: action.value
+          }
+        }
+
       case 'ERROR':
         return {
           ...state
           , loading: false
           , error: true
         }
+
       default:
         return { ...state }
     }
@@ -56,6 +86,42 @@ const App = () => {
       dispatch({
         type: 'ERROR'
       });
+    }
+  }
+
+  const createNote = async () => {
+    const { form } = state;
+
+    if ( !form.name || !form.description) {
+      return alert('Please enter a name and description')
+    };
+
+    const note = {
+      ...form
+      , clientId: CLIENT_ID
+      , completed: false
+      , id: uuid()
+    };
+
+    dispatch ({
+      type: 'ADD_NOTE'
+      , note //shorthand for note: note, prop w/ same name is its value
+    });
+
+    dispatch ({
+      type: 'RESET_FORM'
+    });
+
+    try {
+      await API.graphql ({
+        query: CreateNote
+        , variables: { imput: note }
+      });
+      console.log('successfully created note!');
+    }
+
+    catch (err) {
+      console.error(err);
     }
   }
 
