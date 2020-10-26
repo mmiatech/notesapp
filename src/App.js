@@ -115,7 +115,7 @@ const App = () => {
     try {
       await API.graphql ({
         query: CreateNote
-        , variables: { imput: note }
+        , variables: { input: note }
       });
       console.log('successfully created note!');
     }
