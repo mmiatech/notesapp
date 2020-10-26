@@ -163,26 +163,26 @@ const App = () => {
 
   return (
     <div style={styles.container}>
-      <input
+      <Input
         style={styles.input}
         onChange={onChange}
         placeholder='Note Name'
         name='name'
         value={state.form.name}
       />
-      <input
+      <Input
         style={styles.input}
         onChange={onChange}
         placeholder='Note Description'
         name='description'
         value={state.form.description}
       />
-      <button
+      <Button
         onClick={createNote}
         type='primary'
       >
         Create New Note
-      </button>
+      </Button>
       <List
         loading={state.loading}
         dataSource={state.notes}
