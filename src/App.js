@@ -125,6 +125,14 @@ const App = () => {
     }
   }
 
+  const onChange = (e) => {
+    dispatch({
+      type: 'SET_INPUT'
+      , name: e.target.name
+      , value: e.target.value
+    });
+  }
+
   useEffect (
     () => {
      fetchNotes();
@@ -155,6 +163,26 @@ const App = () => {
 
   return (
     <div style={styles.container}>
+      <input
+        style={styles.input}
+        onChange={onChange}
+        placeholder='Note Name'
+        name='name'
+        value={state.form.name}
+      />
+      <input
+        style={styles.input}
+        onChange={onChange}
+        placeholder='Note Description'
+        name='description'
+        value={state.form.description}
+      />
+      <button
+        onClick={createNote}
+        type='primary'
+      >
+        Create New Note
+      </button>
       <List
         loading={state.loading}
         dataSource={state.notes}
