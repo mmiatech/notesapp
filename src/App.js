@@ -35,8 +35,8 @@ const App = () => {
         return {
           ...state
           , notes: [
-            action.note
-            , ...state.notes
+            ...state.notes
+            , action.note
           ]
         }
 
