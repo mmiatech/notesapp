@@ -11,6 +11,7 @@ import { v4 as uuid } from 'uuid';
 import {
   createNote as CreateNote
   , deleteNote as DeleteNote
+  , updateNote as UpdateNote
 } from './graphql/mutations';
 
 const CLIENT_ID = uuid();
@@ -148,6 +149,34 @@ const App = () => {
     }
   }
 
+  const updateNote = async (noteToUpdate) => {
+
+    dispatch({
+      type: 'SET_NOTES'
+      , notes: state.notes.map(x => ({
+        ...x
+        , completed: x == noteToUpdate ? !x.completed : x.completed
+      }))
+    });
+
+    try {
+      await API.graphql({
+        query: UpdateNote,
+        variables: {
+          input: {
+            id: noteToUpdate.id
+            , completed: !noteToUpdate.completed
+          }
+        }
+      })
+      console.log('note successfully updated!')
+    }
+    
+    catch (err) {
+      console.error(err);
+    }
+  }
+
   const onChange = (e) => {
     dispatch({
       type: 'SET_INPUT'
@@ -180,6 +209,12 @@ const App = () => {
             onClick={() => deleteNote(item)}
           >
             Delete
+          </p>
+          ,<p
+            style={styles.p}
+            onClick={() => updateNote(item)}
+          >
+            {item.completed ? 'mark uncompleted' : 'mark completed'}
           </p>
         ]}
       >
