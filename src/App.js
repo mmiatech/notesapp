@@ -128,23 +128,17 @@ const App = () => {
     }
   }
 
-  const deleteNote = async ({ id }) => {
-    const index = state.notes.findIndex(n => n.id === id);
-
-    const notes = [
-      ...state.notes.slice(0, index)
-      , ...state.notes.slice(index + 1)
-    ];
+  const deleteNote = async (noteToDelete) => {
 
     dispatch({
       type: 'SET_NOTES'
-      , notes
+      , notes: state.notes.filter(x => x !== noteToDelete)
     });
 
     try {
       await API.graphql({
         query: DeleteNote
-        , variables: { input: { id } }
+        , variables: { input: { id: noteToDelete.id } }
       });
       console.log('successfully deleted note!')
     }
