@@ -206,20 +206,20 @@ const App = () => {
         actions={[
           <p
             style={styles.p}
+            onClick={() => updateNote(item)}
+          >
+            {item.completed ? 'mark incomplete' : 'mark complete'}
+          </p>
+          , <p
+            style={styles.p}
             onClick={() => deleteNote(item)}
           >
             Delete
           </p>
-          ,<p
-            style={styles.p}
-            onClick={() => updateNote(item)}
-          >
-            {item.completed ? 'mark uncompleted' : 'mark completed'}
-          </p>
         ]}
       >
         <List.Item.Meta
-          title={item.name}
+          title={ item.completed ? item.name + ' (complete)' : item.name}
           description={item.description}
         >
         </List.Item.Meta>
